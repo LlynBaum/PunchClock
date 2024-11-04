@@ -61,7 +61,7 @@ namespace M223PunchclockDotnet.Controllers
             }
         }
 
-        private Entry MapToEntry(EntryDto dto)
+        private static Entry MapToEntry(EntryDto dto)
         {
             return new Entry
             {
