@@ -23,12 +23,7 @@ namespace M223PunchclockDotnet.Controllers
         [ProducesResponseType<Entry>(StatusCodes.Status201Created)]
         public async Task<ActionResult<Entry>> AddEntry(EntryDto entryDto)
         {
-            var entry = new Entry
-            {
-                CheckIn = entryDto.CheckIn,
-                CheckOut = entryDto.CheckOut
-            };
-            
+            var entry = MapToEntry(entryDto);
             var newEntry = await entryService.AddEntry(entry);
             return CreatedAtAction(nameof(Get), new{id = newEntry.Id}, newEntry);
         }
@@ -56,12 +51,7 @@ namespace M223PunchclockDotnet.Controllers
         {
             try
             {
-                var entry = new Entry
-                {
-                    CheckIn = entryDto.CheckIn,
-                    CheckOut = entryDto.CheckOut
-                };
-                
+                var entry = MapToEntry(entryDto);
                 var updatedEntry = await entryService.UpdateAsync(id, entry, cancellation);
                 return updatedEntry;
             }
@@ -69,6 +59,15 @@ namespace M223PunchclockDotnet.Controllers
             {
                 return NotFound(e.Message);
             }
+        }
+
+        private Entry MapToEntry(EntryDto dto)
+        {
+            return new Entry
+            {
+                CheckIn = dto.CheckIn,
+                CheckOut = dto.CheckOut
+            };
         }
     }
 }
