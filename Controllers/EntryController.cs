@@ -20,7 +20,8 @@ namespace M223PunchclockDotnet.Controllers
         [HttpPost]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType<Entry>(StatusCodes.Status201Created)]
-        public async Task<ActionResult<Entry>> AddEntry(Entry entry){
+        public async Task<ActionResult<Entry>> AddEntry(Entry entry)
+        {
             _ = await entryService.AddEntry(entry);
             return CreatedAtAction(nameof(Get), new{id = entry.Id}, entry);
         }

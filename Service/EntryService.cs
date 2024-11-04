@@ -33,7 +33,7 @@ namespace M223PunchclockDotnet.Service
         {
             var existing = await databaseContext.Entries.SingleOrDefaultAsync(e => e.Id == id ,cancellation);
 
-            if (existing is null) return null;
+            if (existing is null) throw new ArgumentException($"Entry with Id = {id} not found");
 
             existing.CheckIn = entry.CheckIn;
             existing.CheckOut = entry.CheckOut;
