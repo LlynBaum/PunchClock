@@ -10,8 +10,14 @@ namespace M223PunchclockDotnet.Service
             return databaseContext.Entries.ToListAsync();
         }
 
-        public async Task<Entry> AddEntry(Entry entry)
+        public async Task<Entry> AddEntry(EntryDto entryDto)
         {
+            var entry = new Entry
+            {
+                CheckIn = entryDto.CheckIn,
+                CheckOut = entryDto.CheckOut
+            };
+            
             databaseContext.Entries.Add(entry);
             await databaseContext.SaveChangesAsync();
 
@@ -29,14 +35,14 @@ namespace M223PunchclockDotnet.Service
             return entry;
         }
 
-        public async Task<Entry> UpdateAsync(int id, Entry entry, CancellationToken cancellation)
+        public async Task<Entry> UpdateAsync(int id, EntryDto entryDto, CancellationToken cancellation)
         {
             var existing = await databaseContext.Entries.SingleOrDefaultAsync(e => e.Id == id ,cancellation);
 
             if (existing is null) throw new ArgumentException($"Entry with Id = {id} not found");
 
-            existing.CheckIn = entry.CheckIn;
-            existing.CheckOut = entry.CheckOut;
+            existing.CheckIn = entryDto.CheckIn;
+            existing.CheckOut = entryDto.CheckOut;
 
             databaseContext.Entries.Update(existing);
             await databaseContext.SaveChangesAsync(cancellation);
