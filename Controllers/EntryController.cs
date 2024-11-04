@@ -42,10 +42,10 @@ namespace M223PunchclockDotnet.Controllers
             }
         }
 
-        [HttpPatch("{id:int}")]
+        [HttpPut("{id:int}")]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType<Entry>(StatusCodes.Status200OK)]
-        public async Task<ActionResult<Entry>> PatchEntry(int id, [FromBody] Entry entry, CancellationToken cancellation)
+        public async Task<ActionResult<Entry>> PutEntry(int id, [FromBody] Entry entry, CancellationToken cancellation)
         {
             try
             {
