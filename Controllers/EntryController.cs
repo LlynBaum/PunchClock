@@ -23,8 +23,14 @@ namespace M223PunchclockDotnet.Controllers
         [ProducesResponseType<Entry>(StatusCodes.Status201Created)]
         public async Task<ActionResult<Entry>> AddEntry(EntryDto entryDto)
         {
-            var entry = await entryService.AddEntry(entryDto);
-            return CreatedAtAction(nameof(Get), new{id = entry.Id}, entry);
+            var entry = new Entry
+            {
+                CheckIn = entryDto.CheckIn,
+                CheckOut = entryDto.CheckOut
+            };
+            
+            var newEntry = await entryService.AddEntry(entry);
+            return CreatedAtAction(nameof(Get), new{id = newEntry.Id}, newEntry);
         }
 
         [HttpDelete("{id:int}")]
@@ -50,8 +56,14 @@ namespace M223PunchclockDotnet.Controllers
         {
             try
             {
-                var entry = await entryService.UpdateAsync(id, entryDto, cancellation);
-                return entry;
+                var entry = new Entry
+                {
+                    CheckIn = entryDto.CheckIn,
+                    CheckOut = entryDto.CheckOut
+                };
+                
+                var updatedEntry = await entryService.UpdateAsync(id, entry, cancellation);
+                return updatedEntry;
             }
             catch (ArgumentException e)
             {
