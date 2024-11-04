@@ -30,13 +30,15 @@ namespace M223PunchclockDotnet.Controllers
         [ProducesResponseType<Entry>(StatusCodes.Status200OK)]
         public async Task<ActionResult<Entry>> DeleteEntry(int id, CancellationToken cancellation)
         {
-            var entry = await entryService.DeleteAsync(id, cancellation);
-            if (entry is null)
+            try
             {
-                return NotFound($"Entry with Id = {id} not found");
+                var entry = await entryService.DeleteAsync(id, cancellation);
+                return entry;
             }
-
-            return entry;
+            catch (ArgumentException e)
+            {
+                return NotFound(e.Message);
+            }
         }
 
         [HttpPatch("{id:int}")]
@@ -44,13 +46,15 @@ namespace M223PunchclockDotnet.Controllers
         [ProducesResponseType<Entry>(StatusCodes.Status200OK)]
         public async Task<ActionResult<Entry>> PatchEntry(int id, [FromBody] Entry entry, CancellationToken cancellation)
         {
-            var newEntry = await entryService.UpdateAsync(id, entry, cancellation);
-            if (newEntry is null)
+            try
             {
-                return NotFound($"Entry with Id = {id} not found");
+                var newEntry = await entryService.UpdateAsync(id, entry, cancellation);
+                return newEntry;
             }
-
-            return entry;
+            catch (ArgumentException e)
+            {
+                return NotFound(e.Message);
+            }
         }
     }
 }

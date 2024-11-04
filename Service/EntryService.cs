@@ -18,18 +18,18 @@ namespace M223PunchclockDotnet.Service
             return entry;
         }
 
-        public async Task<Entry?> DeleteAsync(int id, CancellationToken cancellation)
+        public async Task<Entry> DeleteAsync(int id, CancellationToken cancellation)
         {
             var entry = await databaseContext.Entries.SingleOrDefaultAsync(e => e.Id == id, cancellation);
 
-            if (entry is null) return null;
+            if (entry is null) throw new ArgumentException($"Entry with Id = {id} not found");
             
             databaseContext.Entries.Remove(entry);
             await databaseContext.SaveChangesAsync(cancellation);
             return entry;
         }
 
-        public async Task<Entry?> UpdateAsync(int id, Entry entry, CancellationToken cancellation)
+        public async Task<Entry> UpdateAsync(int id, Entry entry, CancellationToken cancellation)
         {
             var existing = await databaseContext.Entries.SingleOrDefaultAsync(e => e.Id == id ,cancellation);
 
