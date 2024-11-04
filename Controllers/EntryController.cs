@@ -1,4 +1,5 @@
 using System.Net.Mime;
+using M223PunchclockDotnet.Dto;
 using M223PunchclockDotnet.Model;
 using M223PunchclockDotnet.Service;
 using Microsoft.AspNetCore.Mvc;
@@ -20,10 +21,11 @@ namespace M223PunchclockDotnet.Controllers
         [HttpPost]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType<Entry>(StatusCodes.Status201Created)]
-        public async Task<ActionResult<Entry>> AddEntry(Entry entry)
+        public async Task<ActionResult<Entry>> AddEntry(EntryDto entryDto)
         {
-            _ = await entryService.AddEntry(entry);
-            return CreatedAtAction(nameof(Get), new{id = entry.Id}, entry);
+            var entry = MapToEntry(entryDto);
+            var newEntry = await entryService.AddEntry(entry);
+            return CreatedAtAction(nameof(Get), new{id = newEntry.Id}, newEntry);
         }
 
         [HttpDelete("{id:int}")]
@@ -45,17 +47,27 @@ namespace M223PunchclockDotnet.Controllers
         [HttpPut("{id:int}")]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType<Entry>(StatusCodes.Status200OK)]
-        public async Task<ActionResult<Entry>> PutEntry(int id, [FromBody] Entry entry, CancellationToken cancellation)
+        public async Task<ActionResult<Entry>> PutEntry(int id, [FromBody] EntryDto entryDto, CancellationToken cancellation)
         {
             try
             {
-                var newEntry = await entryService.UpdateAsync(id, entry, cancellation);
-                return newEntry;
+                var entry = MapToEntry(entryDto);
+                var updatedEntry = await entryService.UpdateAsync(id, entry, cancellation);
+                return updatedEntry;
             }
             catch (ArgumentException e)
             {
                 return NotFound(e.Message);
             }
+        }
+
+        private static Entry MapToEntry(EntryDto dto)
+        {
+            return new Entry
+            {
+                CheckIn = dto.CheckIn,
+                CheckOut = dto.CheckOut
+            };
         }
     }
 }
