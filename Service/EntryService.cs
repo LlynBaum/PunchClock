@@ -1,4 +1,5 @@
-﻿using M223PunchclockDotnet.Model;
+﻿using M223PunchclockDotnet.Dto;
+using M223PunchclockDotnet.Model;
 using Microsoft.EntityFrameworkCore;
 
 namespace M223PunchclockDotnet.Service

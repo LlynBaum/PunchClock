@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace M223PunchclockDotnet.Model;
+namespace M223PunchclockDotnet.Dto;
 
 public class EntryDto
 {
