@@ -13,19 +13,44 @@ namespace M223PunchclockDotnet.Controllers
         [ProducesResponseType<Entry>(StatusCodes.Status200OK)]
         public async Task<IActionResult> Get()
         {
-            var allEntries = await entryService.FindAll();
+            var allEntries = await entryService.GetAll();
             return Ok(allEntries);
         }
 
-        [HttpPost()]
+        [HttpPost]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType<Entry>(StatusCodes.Status201Created)]
         public async Task<ActionResult<Entry>> AddEntry(Entry entry){
-            var newElement = await entryService.AddEntry(entry);
-
+            _ = await entryService.AddEntry(entry);
             return CreatedAtAction(nameof(Get), new{id = entry.Id}, entry);
         }
 
+        [HttpDelete("{id:int}")]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [ProducesResponseType<Entry>(StatusCodes.Status200OK)]
+        public async Task<ActionResult<Entry>> DeleteEntry(int id, CancellationToken cancellation)
+        {
+            var entry = await entryService.DeleteAsync(id, cancellation);
+            if (entry is null)
+            {
+                return NotFound($"Entry with Id = {id} not found");
+            }
 
+            return entry;
+        }
+
+        [HttpPatch("{id:int}")]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [ProducesResponseType<Entry>(StatusCodes.Status200OK)]
+        public async Task<ActionResult<Entry>> PatchEntry(int id, [FromBody] Entry entry, CancellationToken cancellation)
+        {
+            var newEntry = await entryService.UpdateAsync(id, entry, cancellation);
+            if (newEntry is null)
+            {
+                return NotFound($"Entry with Id = {id} not found");
+            }
+
+            return entry;
+        }
     }
 }
