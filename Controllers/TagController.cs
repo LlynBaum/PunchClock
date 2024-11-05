@@ -62,7 +62,7 @@ public class TagController(TagService service) : Controller
             var tag = await service.DeleteAsync(id, cancellationToken);
             return tag;
         }
-        catch (ArgumentException e)
+        catch (ArgumentException)
         {
             return NotFound($"Can not find Tag with Id {id}");
         }
