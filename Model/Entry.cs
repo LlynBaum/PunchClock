@@ -11,5 +11,9 @@ namespace M223PunchclockDotnet.Model
         
         [Required]
         public DateTime CheckOut { get; set; }
+        
+        public Category? Category { get; set; }
+
+        public List<Tag> Tags { get; set; } = [];
     }
 }
