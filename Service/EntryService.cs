@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace M223PunchclockDotnet.Service
 {
-    public class EntryService(DatabaseContext databaseContext)
+    public class EntryService(DatabaseContext databaseContext, TimeSummaryService timeSummaryService)
     {
         public Task<List<Entry>> GetAll()
         {
@@ -41,6 +41,12 @@ namespace M223PunchclockDotnet.Service
             databaseContext.Entries.Update(existing);
             await databaseContext.SaveChangesAsync(cancellation);
             return existing;
+        }
+
+        public async Task<Dictionary<DateTime, TimeSpan>> GetTimeSummaries()
+        {
+            var entries = await GetAll();
+            return timeSummaryService.CalculateSummaryPerDay(entries);
         }
     }
 }
