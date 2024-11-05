@@ -23,10 +23,19 @@ public class TagService(DatabaseContext context)
         await context.SaveChangesAsync(cancellationToken);
         return newTag.Entity;
     }
+    
+    public async Task UpdateAsync(int id, Tag tag, CancellationToken cancellationToken)
+    {
+        var existing = await GetByIdAsync(id, cancellationToken);
+        existing.Title = tag.Title;
+        context.Tags.Update(existing);
+        await context.SaveChangesAsync(cancellationToken);
+    }
 
-    public async Task DeleteAsync(int id, CancellationToken cancellationToken)
+    public async Task<Tag> DeleteAsync(int id, CancellationToken cancellationToken)
     {
         var tag = await context.Tags.SingleOrDefaultAsync(t => t.Id == id, cancellationToken);
         if (tag is null) throw new ArgumentException($"Can not find Tag with id {id}");
+        return tag;
     }
 }
