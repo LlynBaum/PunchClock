@@ -1,3 +1,4 @@
+using M223PunchclockDotnet;
 using Microsoft.EntityFrameworkCore;
 using M223PunchclockDotnet.Service;
 using M223PunchclockDotnet.Model;
@@ -39,7 +40,12 @@ using (var scope = app.Services.CreateScope())
 
     var context = services.GetRequiredService<DatabaseContext>();
     context.Database.EnsureCreated();
-    // DbInitializer.Initialize(context);
+
+    if (app.Environment.IsDevelopment())
+    {
+        DbInitializer.Initialize(context);
+    }
+    
 }
 
 app.UseDefaultFiles();
