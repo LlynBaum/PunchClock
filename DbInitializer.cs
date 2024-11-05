@@ -26,9 +26,9 @@ public static class DbInitializer
 
     private static DatabaseContext Drop(this DatabaseContext context)
     {
-        context.Database.ExecuteSqlRaw("TRUNCATE TABLE 'Entry'");
-        context.Database.ExecuteSqlRaw("TRUNCATE TABLE 'Tag'");
-        context.Database.ExecuteSqlRaw("TRUNCATE TABLE 'Category'");
+        context.Database.ExecuteSqlRaw("TRUNCATE TABLE Entry");
+        context.Database.ExecuteSqlRaw("TRUNCATE TABLE Tag");
+        context.Database.ExecuteSqlRaw("TRUNCATE TABLE Category");
         return context;
     }
 
@@ -63,20 +63,20 @@ public static class DbInitializer
         context.Entries.AddRange(
             new Entry
             {
-                CheckIn = new DateTime(2024, 11, 5, 11, 00, 00),
-                CheckOut = new DateTime(2024, 11, 5, 14, 00, 00),
+                CheckIn = new DateTime(2024, 11, 5, 11, 00, 00, DateTimeKind.Utc),
+                CheckOut = new DateTime(2024, 11, 5, 14, 00, 00, DateTimeKind.Utc),
                 Category = category
             },
             new Entry
             {
-                CheckIn = new DateTime(2024, 5, 11, 9, 30, 00),
-                CheckOut = new DateTime(2024, 5, 11, 12, 45, 00),
+                CheckIn = new DateTime(2024, 5, 11, 9, 30, 00, DateTimeKind.Utc),
+                CheckOut = new DateTime(2024, 5, 11, 12, 45, 00, DateTimeKind.Utc),
                 Tags = [tag]
             },
             new Entry
             {
-                CheckIn = new DateTime(2023, 11, 5, 11, 00, 00),
-                CheckOut = new DateTime(2023, 11, 6, 14, 00, 00)
+                CheckIn = new DateTime(2023, 11, 5, 11, 00, 00, DateTimeKind.Utc),
+                CheckOut = new DateTime(2023, 11, 6, 14, 00, 00, DateTimeKind.Utc)
             });
         return context;
     }
