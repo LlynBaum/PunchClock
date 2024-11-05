@@ -40,7 +40,12 @@ using (var scope = app.Services.CreateScope())
 
     var context = services.GetRequiredService<DatabaseContext>();
     context.Database.EnsureCreated();
-    DbInitializer.Initialize(context);
+
+    if (app.Environment.IsDevelopment())
+    {
+        DbInitializer.Initialize(context);
+    }
+    
 }
 
 app.UseDefaultFiles();
