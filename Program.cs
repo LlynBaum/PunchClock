@@ -15,8 +15,9 @@ builder.Services.AddDbContext<DatabaseContext>(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-
-builder.Services.AddScoped<EntryService, EntryService>();
+builder.Services.AddScoped<EntryService>();
+builder.Services.AddScoped<TagService>();
+builder.Services.AddScoped<CategoryService>();
 
 var app = builder.Build();
 
