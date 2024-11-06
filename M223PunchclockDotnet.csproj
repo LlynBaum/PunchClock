@@ -17,4 +17,20 @@
     <Folder Include=".devcontainer\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="M223PunchclockTests\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="M223PunchclockTests\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="M223PunchclockTests\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="M223PunchclockTests\**" />
+  </ItemGroup>
+
 </Project>
