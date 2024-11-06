@@ -9,4 +9,6 @@ public class EntryDto
         
     [Required]
     public DateTime CheckOut { get; set; }
+
+    public required int UserId { get; set; }
 }
