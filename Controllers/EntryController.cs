@@ -66,7 +66,8 @@ namespace M223PunchclockDotnet.Controllers
             return new Entry
             {
                 CheckIn = dto.CheckIn,
-                CheckOut = dto.CheckOut
+                CheckOut = dto.CheckOut,
+                UserId = dto.UserId
             };
         }
     }
